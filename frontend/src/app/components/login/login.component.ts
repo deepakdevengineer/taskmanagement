@@ -35,7 +35,11 @@ export class LoginComponent {
         this.router.navigate(['/tasks']);
       },
       error: (err) => {
-        this.error = 'Invalid username or password.';
+        if (err.status === 0 || err.error instanceof ProgressEvent) {
+          this.error = 'Unable to connect to server. Render backend may be waking up (takes 15-30s on free tier). Please wait a moment and try again.';
+        } else {
+          this.error = err.error?.detail || 'Invalid username or password.';
+        }
         this.isLoading = false;
       }
     });

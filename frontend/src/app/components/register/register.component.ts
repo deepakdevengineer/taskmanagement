@@ -53,9 +53,10 @@ export class RegisterComponent {
         this.router.navigate(['/login']);
       },
       error: (err) => {
-        const errors = err.error;
-        if (errors && typeof errors === 'object') {
-          const messages = Object.entries(errors)
+        if (err.status === 0 || err.error instanceof ProgressEvent || (err.error && err.error.isTrusted)) {
+          this.error = 'Unable to connect to server. Render backend may be waking up (takes 15-30s on free tier). Please wait a moment and try again.';
+        } else if (err.error && typeof err.error === 'object') {
+          const messages = Object.entries(err.error)
             .map(([key, val]) => `${key}: ${Array.isArray(val) ? val.join(', ') : val}`)
             .join(' | ');
           this.error = messages;
