@@ -1,0 +1,13 @@
+<nav class="navbar" *ngIf="authService.isLoggedIn()">
+  <div class="navbar-container">
+    <a routerLink="/" class="navbar-brand">
+      <div class="logo-icon"></div>
+      Task Manager
+    </a>
+    
+    <div class="navbar-actions">
+      <div class="user-greeting">Welcome, User</div>
+      <button class="btn btn-secondary btn-sm" (click)="logout()">Logout</button>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,4 @@
+.main-content {
+  min-height: calc(100vh - 80px); /* 80px is approx navbar height */
+  padding: 1rem 0;
+}
