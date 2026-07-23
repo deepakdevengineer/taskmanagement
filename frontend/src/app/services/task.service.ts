@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subject, tap } from 'rxjs';
 import { Task, PaginatedResponse } from '../models/task.model';
 
 @Injectable({
@@ -10,6 +10,8 @@ export class TaskService {
   private apiUrl = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
     ? 'http://localhost:8000/api'
     : 'https://taskmanagement-6aww.onrender.com/api') + '/tasks/';
+
+  taskChanged$ = new Subject<void>();
 
   constructor(private http: HttpClient) { }
 
@@ -26,14 +28,20 @@ export class TaskService {
   }
 
   createTask(task: Task): Observable<Task> {
-    return this.http.post<Task>(this.apiUrl, task);
+    return this.http.post<Task>(this.apiUrl, task).pipe(
+      tap(() => this.taskChanged$.next())
+    );
   }
 
   updateTask(id: number, task: Task): Observable<Task> {
-    return this.http.put<Task>(`${this.apiUrl}${id}/`, task);
+    return this.http.put<Task>(`${this.apiUrl}${id}/`, task).pipe(
+      tap(() => this.taskChanged$.next())
+    );
   }
 
   deleteTask(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}${id}/`);
+    return this.http.delete(`${this.apiUrl}${id}/`).pipe(
+      tap(() => this.taskChanged$.next())
+    );
   }
 }

@@ -35,6 +35,11 @@ export class TaskListComponent implements OnInit {
   ngOnInit(): void {
     this.loadTasks();
     
+    // Auto-refresh tasks list whenever a task is added/updated/deleted
+    this.taskService.taskChanged$.subscribe(() => {
+      this.loadTasks();
+    });
+    
     this.searchSubject.pipe(
       debounceTime(300),
       distinctUntilChanged()
@@ -91,14 +96,18 @@ export class TaskListComponent implements OnInit {
   
   confirmDelete(): void {
     if (this.taskToDelete && this.taskToDelete.id) {
-      this.taskService.deleteTask(this.taskToDelete.id).subscribe({
+      const deletedId = this.taskToDelete.id;
+      // Instant optimistic UI removal
+      this.tasks = this.tasks.filter(t => t.id !== deletedId);
+      this.closeDeleteDialog();
+
+      this.taskService.deleteTask(deletedId).subscribe({
         next: () => {
-          this.closeDeleteDialog();
           this.loadTasks();
         },
         error: (err) => {
           console.error('Failed to delete task', err);
-          this.closeDeleteDialog();
+          this.loadTasks(); // restore list if deletion failed on server
         }
       });
     }
