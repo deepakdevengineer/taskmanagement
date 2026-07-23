@@ -20,7 +20,7 @@ export class RegisterComponent {
     username: ['', [Validators.required, Validators.minLength(3)]],
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]],
-    password_confirmation: ['', Validators.required]
+    password2: ['', Validators.required]
   }, { validators: this.passwordMatchValidator });
 
   error: string = '';
@@ -28,7 +28,7 @@ export class RegisterComponent {
 
   passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
     const password = control.get('password');
-    const passwordConfirmation = control.get('password_confirmation');
+    const passwordConfirmation = control.get('password2');
     if (password && passwordConfirmation && password.value !== passwordConfirmation.value) {
       return { mismatch: true };
     }
@@ -45,7 +45,7 @@ export class RegisterComponent {
       username: this.registerForm.value.username,
       email: this.registerForm.value.email,
       password: this.registerForm.value.password,
-      password_confirmation: this.registerForm.value.password_confirmation
+      password2: this.registerForm.value.password2
     };
 
     this.authService.register(payload).subscribe({
@@ -53,7 +53,15 @@ export class RegisterComponent {
         this.router.navigate(['/login']);
       },
       error: (err) => {
-        this.error = err.error?.message || 'Registration failed. Please try again.';
+        const errors = err.error;
+        if (errors && typeof errors === 'object') {
+          const messages = Object.entries(errors)
+            .map(([key, val]) => `${key}: ${Array.isArray(val) ? val.join(', ') : val}`)
+            .join(' | ');
+          this.error = messages;
+        } else {
+          this.error = 'Registration failed. Please try again.';
+        }
         this.isLoading = false;
       }
     });
