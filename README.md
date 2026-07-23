@@ -2,6 +2,20 @@
 
 A full-stack Task Management application built with **Django REST Framework** (backend) and **Angular 17** (frontend), featuring JWT authentication, CRUD operations, search, filtering, and pagination.
 
+## 🌐 Live Demo & Deployment Links
+
+| Deployment | URL |
+|------------|-----|
+| 🚀 **Live Frontend (Vercel)** | [https://taskmanagement-five-kappa.vercel.app/](https://taskmanagement-five-kappa.vercel.app/) |
+| ⚡ **Live Backend API (Render)** | [https://taskmanagement-6aww.onrender.com/api/](https://taskmanagement-6aww.onrender.com/api/) |
+| 📦 **GitHub Repository** | [https://github.com/deepakdevengineer/taskmanagement](https://github.com/deepakdevengineer/taskmanagement) |
+
+### 🔑 Demo Login Credentials
+- **Username / Email**: `kdsad@gmail.com`
+- **Password**: `kdsad@gmail.com`
+
+---
+
 ## Tech Stack
 
 ### Backend
