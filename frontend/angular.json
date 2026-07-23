@@ -42,6 +42,7 @@
               "base": "dist/frontend",
               "browser": ""
             },
+            "baseHref": "/",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
