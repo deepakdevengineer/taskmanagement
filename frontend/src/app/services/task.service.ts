@@ -7,7 +7,9 @@ import { Task, PaginatedResponse } from '../models/task.model';
   providedIn: 'root'
 })
 export class TaskService {
-  private apiUrl = 'http://localhost:8000/api/tasks/';
+  private apiUrl = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? 'http://localhost:8000/api'
+    : 'https://taskmanagement-6aww.onrender.com/api') + '/tasks/';
 
   constructor(private http: HttpClient) { }
 
