@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: taskmanagement-backend
+    env: python
+    buildCommand: "cd backend && pip install -r requirements.txt && python manage.py migrate"
+    startCommand: "cd backend && gunicorn task_manager.wsgi:application"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.12
